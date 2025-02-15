@@ -1,0 +1,61 @@
+---
+title: "Homework 3"
+author: "Mari Sanders"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(igraph)
+library(tidyverse)
+```
+
+# Data 
+
+```{r}
+data <- read_delim("moreno_oz/out.moreno_oz_oz", skip = 1) %>% select(1:3) 
+```
+
+# Graphing Model 
+
+This is a weighted graph, which contains friendship ratings between 217 residents living at a residence hall located on the Australian National University campus. 
+
+Each node represents a person and each edge represents the friendship between the two nodes. 
+
+```{r}
+edge_list <- data %>% select(1:2) %>% as.data.frame()
+g <- graph_from_data_frame(edge_list)
+E(g)$weight <- data %>% select(3) %>% pull()
+summary(g)
+```
+
+# Graphics 
+
+```{r}
+igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.5)
+plot(g, layout = layout_in_circle)
+```
+
+This type of graph does not seem to represent it well, as it is difficult to see all the edges in the graph. 
+
+```{r}
+igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.5)
+plot(g, layout = layout_with_fr)
+```
+
+This improved upon the circular graph, but it is still a bit difficult to see all the edges in the middle of the graph. It is easier to see the connections on the outside of the graph, but not the middle. 
+
+```{r}
+igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.5)
+plot(g, layout=layout_with_kk)
+```
+
+This is pretty similar to the above graph, where it is easy to see the connections on the outside, but not in the middle. 
+
+```{r}
+igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.3)
+plot(g, layout = layout_as_tree)
+```
+
+This actually isn't a terrible representation, but doesn't make sense for a traditional tree structure. Normally the direction of trees is only one way and this is not the case with the features of this graph. 
