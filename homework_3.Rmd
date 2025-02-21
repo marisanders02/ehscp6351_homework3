@@ -32,30 +32,46 @@ summary(g)
 
 # Graphics 
 
-```{r}
+```{r,  fig.width= 10, fig.height= 10}
 igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.5)
 plot(g, layout = layout_in_circle)
 ```
 
 This type of graph does not seem to represent it well, as it is difficult to see all the edges in the graph. 
 
-```{r}
+```{r,  fig.width= 10, fig.height= 10}
 igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.5)
 plot(g, layout = layout_with_fr)
 ```
 
 This improved upon the circular graph, but it is still a bit difficult to see all the edges in the middle of the graph. It is easier to see the connections on the outside of the graph, but not the middle. 
 
-```{r}
+```{r, fig.width= 10, fig.height= 10}
 igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.5)
 plot(g, layout=layout_with_kk)
 ```
 
 This is pretty similar to the above graph, where it is easy to see the connections on the outside, but not in the middle. 
 
-```{r}
+```{r, fig.width= 10, fig.height= 10}
 igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.3)
 plot(g, layout = layout_as_tree)
 ```
 
 This actually isn't a terrible representation, but doesn't make sense for a traditional tree structure. Normally the direction of trees is only one way and this is not the case with the features of this graph. 
+
+```{r, fig.width= 10, fig.height= 10}
+igraph_options(vertex.size=5, vertex.label=NA, edge.arrow.size=0.1)
+E(g)$color[E(g)$weight == 1] <- "red"
+E(g)$color[E(g)$weight == 2] <- "green"
+E(g)$color[E(g)$weight == 3] <- "purple"
+E(g)$color[E(g)$weight == 4] <- "blue"
+E(g)$color[E(g)$weight == 5] <- "black"
+
+plot(g, layout = layout_with_kk)
+```
+
+Changing the edge color is helpful to view the graph. It seems like most people have 3 connections in this dataset. 
+
+In conclusion, I think that from this exploration, it is hard to visualize data with a lot of links that don't have very specific groups. If it had been data where there were defined groups, you could split up the graph and graph multiple to get a better visualization. 
+
